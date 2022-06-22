@@ -50,8 +50,36 @@ const dropRole = async(req,res,next) => {
     }
 }
 
+const  RoleAddPermit = async(req,res,next) =>{
+    let roleId = await DB.findById(req.params.id);
+    let permitId = await DB.findById(req.parmas.id);
+    if(roleId & permitId){
+        await DB.findByIdAndUpdate(roleId._id,{$push:{permit:permitId._id}})
+        let result = await DB.findById(req.params.id);
+        Helper.fMsg(res,"Add Permit to role",result);
+    }else{
+        next(new Error("Add Role to permit Accessed Denied"))
+    }
+}
+
+const  RoleRemovePermit = async(req,res,next) =>{
+    let roleId = await DB.findById(req.params.id);
+    let permitId = await DB.findById(req.parmas.id);
+    if(roleId & permitId){
+        await DB.findByIdAndUpdate(roleId._id,{$pull:{permit:permitId._id}})
+        let result = await DB.findById(req.params.id);
+        Helper.fMsg(res,"Add Permit to role",result);
+    }else{
+        next(new Error("Add Role to permit Accessed Denied"))
+    }
+}
+
 module.exports = {
     add,
     get,
-    getOne
+    getOne,
+    editRole,
+    dropRole,
+    RoleAddPermit,
+    RoleRemovePermit
 }

@@ -7,5 +7,5 @@ const roleSchema = new Schema({
     created:{type:Date,default:Date.now}
 })
 
-const role = mongoose.model("role",UserSchema);
+const role = mongoose.model("role",roleSchema);
 module.exports = role;
